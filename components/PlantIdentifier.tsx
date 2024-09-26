@@ -26,34 +26,50 @@ const PlantIdentifier: React.FC = () => {
 
   const handleUrlImageSubmit = async () => {
     if (urlImage) {
-      try {
-        const response = await fetch(`/api/fetch-image?url=${encodeURIComponent(urlImage)}`);
-        if (!response.ok) {
-          throw new Error('Error fetching image');
-        }
-        const blob = await response.blob();
-        const reader = new FileReader();
-        reader.onloadend = () => {
-          const base64data = reader.result as string;
-          setImage(base64data);
-          identifyPlant(base64data); // Call identifyPlant with the Base64 string
-        };
-        reader.readAsDataURL(blob);
-      } catch (error) {
-        setError("Error fetching image. Please check the URL.");
-        console.error(error);
-      }
+      fetchImage(urlImage);
     }
   };
-  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+
+  const fetchImage = async (urlImage: string) => {
+    const response = await fetch(`/api/fetch-image?url=${encodeURIComponent(urlImage)}`);
+    if (!response.ok) {
+      throw new Error('Error fetching image');
+    }
+    const blob = await response.blob();
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      const base64data = reader.result as string;
+      setImage(base64data);
+      identifyPlant(base64data);
+    };
+    reader.readAsDataURL(blob);
+  };
+
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
-      const reader = new FileReader();
-      reader.onload = (event) => {
-        setImage(event.target?.result as string);
-        identifyPlant(event.target?.result as string);
-      };
-      reader.readAsDataURL(file);
+      // Validate file size (e.g., max 10MB)
+      const maxSize = 10 * 1024 * 1024; // 10MB
+      if (file.size > maxSize) {
+        setError("File size exceeds 10MB limit.");
+        return;
+      }
+  
+      // Validate file type (e.g., only images)
+      const validTypes = ["image/jpeg", "image/png", "image/gif"];
+      if (!validTypes.includes(file.type)) {
+        setError("Invalid file type. Please upload an image.");
+        return;
+      }
+  
+      const formData = new FormData();
+      formData.append("file", file);
+      const res = await fetch("/api/upload-image", {
+        method: "POST",
+        body: formData,
+      });
+      const data = await res.json();
+      fetchImage(data.secure_url);
     }
   };
 
