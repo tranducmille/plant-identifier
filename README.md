@@ -11,7 +11,7 @@ The `pages/api` directory is mapped to `/api/*`. Files in this directory are tre
 
 Production Version: https://plant-identifier-d49d2eblc-tranducmilles-projects.vercel.app/
 
-![Alt text](/plant-identifier/public/plantidentifier.png)
+![Alt text](/public/plantidentifier.png)
 
 ### Features
 
