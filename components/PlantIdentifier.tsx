@@ -1,6 +1,6 @@
 // components/PlantIdentifier.tsx
 import React, { useState, useRef } from "react";
-import { Upload, Leaf, Info, Camera, List, Sun, BookOpen, Send } from "lucide-react";
+import { Upload, Leaf, Info, Camera, Send } from "lucide-react";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import Image from "next/image";
 import { Card, CardContent } from "@/components/ui/card";

@@ -22,6 +22,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     }
     res.send(buffer);
   } catch (error) {
+    console.error(error); // Log 
     res.status(500).json({ error: 'Error fetching image' });
   }
 }
