@@ -9,6 +9,8 @@ The application includes an API route for fetching images. You can access it on 
 
 The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
 
+Production Version: https://plant-identifier-d49d2eblc-tranducmilles-projects.vercel.app/
+
 ![Alt text](/plant-identifier/public/plantidentifier.png)
 
 ### Features
