@@ -120,7 +120,6 @@ const PlantIdentifier: React.FC = () => {
             onChange={handleImageUpload}
             className="hidden"
             ref={fileInputRef}
-            capture="environment"
           />
           <button
             onClick={() => fileInputRef.current?.click()}
