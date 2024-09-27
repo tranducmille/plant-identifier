@@ -49,7 +49,7 @@ const PlantIdentifier: React.FC = () => {
     const file = e.target.files?.[0];
     if (file) {
       // Validate file size (e.g., max 4MB)
-      const maxSize = 3 * 1024 * 1024; // 3MB
+      const maxSize = 10 * 1024 * 1024; // 3MB
       if (file.size > maxSize) {
         setError("File size exceeds 10MB limit.");
         return;
@@ -163,13 +163,13 @@ const PlantIdentifier: React.FC = () => {
             placeholder="Enter image URL"
             value={urlImage}
             onChange={(e) => setUrlImage(e.target.value)} // Update URL state
-            className="border rounded p-2 w-1/3 text-black"
+            className="border rounded p-2 max-md:w-full md:w-1/3 text-black"
           />
           <button
             onClick={handleUrlImageSubmit}
             className="bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-6 rounded-full flex items-center justify-center transition duration-300 ml-5"
           >
-            <Send className="mr-2" /> Identify Plant
+            <Send className="mr-2" /> Identify
           </button>
           
         </div>
