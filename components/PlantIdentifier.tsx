@@ -48,8 +48,8 @@ const PlantIdentifier: React.FC = () => {
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
-      // Validate file size (e.g., max 10MB)
-      const maxSize = 10 * 1024 * 1024; // 10MB
+      // Validate file size (e.g., max 4MB)
+      const maxSize = 3 * 1024 * 1024; // 3MB
       if (file.size > maxSize) {
         setError("File size exceeds 10MB limit.");
         return;
@@ -69,7 +69,11 @@ const PlantIdentifier: React.FC = () => {
         body: formData,
       });
       const data = await res.json();
-      fetchImage(data.secure_url);
+      const match = data.secure_url.match(/cloudinary\.com\/([^/]+)\//);
+      const extractedValue = match ? match[1] : '';
+      const format_url = `https://res.cloudinary.com/${extractedValue}/image/upload/c_limit,w_500/${data.public_id}.${data.format}`;
+      console.log(format_url);
+      fetchImage(format_url);
     }
   };
 
