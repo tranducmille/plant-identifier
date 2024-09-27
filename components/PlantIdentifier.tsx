@@ -26,6 +26,7 @@ const PlantIdentifier: React.FC = () => {
 
   const handleUrlImageSubmit = async () => {
     if (urlImage) {
+      setLoading(true);
       fetchImage(urlImage);
     }
   };
@@ -46,12 +47,14 @@ const PlantIdentifier: React.FC = () => {
   };
 
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    setLoading(true);
     const file = e.target.files?.[0];
     if (file) {
       // Validate file size (e.g., max 4MB)
-      const maxSize = 10 * 1024 * 1024; // 3MB
+      const maxSize = 4 * 1024 * 1024; // 4MB
       if (file.size > maxSize) {
-        setError("File size exceeds 10MB limit.");
+        setError("File size exceeds 4MB limit.");
+        setLoading(false);
         return;
       }
   
@@ -59,6 +62,7 @@ const PlantIdentifier: React.FC = () => {
       const validTypes = ["image/jpeg", "image/png", "image/gif"];
       if (!validTypes.includes(file.type)) {
         setError("Invalid file type. Please upload an image.");
+        setLoading(false);
         return;
       }
   
@@ -84,7 +88,6 @@ const PlantIdentifier: React.FC = () => {
   };
 
   const identifyPlant = async (imageData: string) => {
-    setLoading(true); // Set loading to true
     try {
       const response = await fetch("/api/identify-plant", {
         method: "POST",
